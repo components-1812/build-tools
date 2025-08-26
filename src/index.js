@@ -35,9 +35,6 @@ export default async function build(config = {}){
         return aux;
     });
 
-    console.log(outFolders);
-    console.log(BUILD_ENTRIES);
-
     for(const folder of outFolders) {
 
         await fs.mkdir(folder, {recursive: true});
