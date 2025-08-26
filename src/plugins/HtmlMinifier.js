@@ -1,7 +1,7 @@
 import esbuild from "esbuild";
 import path from 'node:path';
 import fs from 'node:fs/promises';
-import { minify } from 'html-minifier';
+import { minify } from 'html-minifier-terser';
 
 export default function HtmlMinifier({svg = false} = {}) {
 
