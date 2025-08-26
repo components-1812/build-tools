@@ -40,23 +40,23 @@ export default async function build(config = {}){
 
     for(const folder of outFolders) {
 
-        // if(!fs.existsSync(folder)){
+        if(!fs.existsSync(folder)){
             
-        //     fs.mkdirSync(folder);
-        // }
+            fs.mkdirSync(folder);
+        }
     }
 
     for(const {name, options} of BUILD_ENTRIES) {
     
-        // try {
-        //     await esbuild.build(options);
+        try {
+            await esbuild.build(options);
 
-        //     console.log(`Build success: ${name}`);
-        // } 
-        // catch (error) {
+            console.log(`Build success: ${name}`);
+        } 
+        catch (error) {
 
-        //     console.log(`Build error: ${name}`);
-        //     console.error(error);
-        // }
+            console.log(`Build error: ${name}`);
+            console.error(error);
+        }
     }
 }
