@@ -1,7 +1,7 @@
 {
-    "name": "build-tools",
+    "name": "@components-1812/build-tools",
     "version": "0.0.1",
-    "description": "",
+    "description": "build tools for components-1812",
     "author": "Franco Javier Gadea",
     "license": "MIT",
     "type": "module",
@@ -15,6 +15,7 @@
     },
     "exports": {
         ".": "./src/index.js",
+        "./plugins": "./src/plugins/index.js",
         "./plugins/*": "./src/plugins/*"
     },
     "files": [
