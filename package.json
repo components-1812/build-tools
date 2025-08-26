@@ -1,15 +1,23 @@
 {
     "name": "build-tools",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
+    "author": "Franco Javier Gadea",
+    "license": "MIT",
+    "type": "module",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "author": "",
-    "license": "ISC",
     "dependencies": {
         "esbuild": "^0.25.9",
         "html-minifier-terser": "^7.2.0"
-    }
+    },
+    "exports": {
+        ".": "./src/index.js",
+        "./plugins/*": "./src/plugins/*"
+    },
+    "files": [
+        "src/*"
+    ]
 }
