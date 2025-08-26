@@ -15,7 +15,10 @@ export default async function build(config = {}){
     //Resolve paths
     const BUILD_ENTRIES = entries.map(entry => {
 
-        const aux = structuredClone(entry);
+        const aux = {
+            name: entry.name,
+            options: {...entry.options}
+        };
 
         //Resolve entry paths
         aux.options.entryPoints = entry.options.entryPoints.map(entryPoint => {
