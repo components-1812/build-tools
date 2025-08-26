@@ -40,10 +40,7 @@ export default async function build(config = {}){
 
     for(const folder of outFolders) {
 
-        if(!fs.existsSync(folder)){
-            
-            fs.mkdirSync(folder);
-        }
+        await fs.mkdir(folder, {recursive: true});
     }
 
     for(const {name, options} of BUILD_ENTRIES) {
