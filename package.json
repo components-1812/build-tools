@@ -13,12 +13,16 @@
         "esbuild": "^0.25.9",
         "html-minifier-terser": "^7.2.0"
     },
+    "bin": {
+        "build": "./bin/build.js"
+    },
     "exports": {
         ".": "./src/index.js",
         "./plugins": "./src/plugins/index.js",
         "./plugins/*": "./src/plugins/*"
     },
     "files": [
-        "src/*"
+        "src/*",
+        "bin/*"
     ]
 }

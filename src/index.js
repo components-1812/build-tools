@@ -1,5 +1,5 @@
 import esbuild from "esbuild";
-import path from 'node:path';
+import {resolve, dirname, extname} from 'node:path';
 import fs from 'node:fs/promises';
 
 export default async function build(config = {}){
@@ -7,49 +7,56 @@ export default async function build(config = {}){
     const {
         source, 
         output,
-        entries = []
+        entries = [],
+        defaults = {}
     } = config;
 
-    const outFolders = new Set([output]);
+    const OutputDirs = new Set([output]);
 
     //Resolve paths
     const BUILD_ENTRIES = entries.map(entry => {
 
-        const aux = {
-            name: entry.name,
-            options: {...entry.options}
-        };
+        const {name, description, outfile, ...options} = entry;
 
-        //Resolve entry paths
-        aux.options.entryPoints = entry.options.entryPoints.map(entryPoint => {
+        const extension = extname(name);
+     
+        const result = {
+            name, 
+            description,
+            esbuild: Object.assign({}, defaults[extension], options, {
+                entryPoints: [
+                    resolve(source, name)
+                ],
+                outfile: resolve(output, outfile)
+            })
+        }
 
-            return path.resolve(source, entryPoint);
-        });
-
-        //Resolve output path
-        aux.options.outfile = path.resolve(output, entry.options.outfile);
+        console.log(result.esbuild);
 
         //Add output folder
-        outFolders.add(path.dirname(aux.options.outfile));
+        OutputDirs.add(dirname(result.esbuild.outfile));
 
-        return aux;
+        return result;
     });
 
-    for(const folder of outFolders) {
+
+    //Create output dirs
+    for(const folder of OutputDirs) {
 
         await fs.mkdir(folder, {recursive: true});
     }
 
-    for(const {name, options} of BUILD_ENTRIES) {
+    //Start building each entry
+    for(const {name, esbuild:options} of BUILD_ENTRIES) {
     
         try {
             await esbuild.build(options);
 
-            console.log(`Build success: ${name}`);
+            console.log(`✅ Build success: ${name}`);
         } 
         catch (error) {
 
-            console.log(`Build error: ${name}`);
+            console.log(`❌ Build error: ${name}`);
             console.error(error);
         }
     }
