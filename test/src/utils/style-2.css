@@ -1,0 +1,17 @@
+
+
+style-2 {
+    display: block;
+    color: red;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: right;
+    background-color: gray;
+    padding: 1em;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 5px;
+    transition: all 0.3s ease-in-out;
+    width: max-content;
+}

@@ -2,7 +2,7 @@ import esbuild from "esbuild";
 import {resolve, extname} from 'node:path';
 import fs from 'node:fs/promises';
 
-export default function RawCSSLoader({ minify = true } = {}) {
+export default function RawCSSLoader({ minify = true, bundle = true } = {}) {
     
     return {
         name: 'raw-loader',
@@ -27,14 +27,19 @@ export default function RawCSSLoader({ minify = true } = {}) {
                 const ext = extname(path);
 
                 // Minify the CSS using esbuild transform API
-                if(ext === '.css' && minify){
+                if(ext === '.css'){
 
-                    const { code } = await esbuild.transform(content, {
-                        loader: 'css',
-                        minify: true,
+                    const result = await esbuild.build({
+                        entryPoints: [path],
+                        write: false,
+                        loader: {
+                            '.css': 'css'
+                        },
+                        bundle,
+                        minify,
                     });
                     
-                    content = code.trim();
+                    content = result.outputFiles[0].text.trim();
                 }
         
                 return {

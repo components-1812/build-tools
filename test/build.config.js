@@ -17,6 +17,12 @@ export default {
                 '#utils': './test/src/utils',
             }
         },
+        // {
+        //     name: './utils/style.css',
+        //     outfile: 'style.min.css',
+        //     bundle: true,
+            
+        // }
     ],
     defaults: {
         '.js': {
@@ -25,12 +31,15 @@ export default {
             bundle: true,
             target: 'es2022',
             plugins: [
-                TemplateStringMinifier({
-                    html: true,
-                    css: true,
-                    svg: true
-                }),
-                //RawLoader()
+                // TemplateStringMinifier({
+                //     html: true,
+                //     css: true,
+                //     svg: true
+                // }),
+                RawLoader({
+                    minify: false,
+                    bundle: false
+                })
             ]
         }
     }
