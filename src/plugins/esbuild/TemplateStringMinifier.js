@@ -35,6 +35,29 @@ export default function TemplateStringMinifier({svg = false, html = false, css =
         return contents;
     }
 
+    async function minifySVG(regex, contents) {
+
+        const matchs = [...contents.matchAll(regex)];
+
+        if(matchs.length === 0) return contents;
+
+        for(const match of matchs) {
+            
+            const [_, svg] = match;
+
+            const minified = await minify(svg, {
+                collapseWhitespace: true,
+                removeComments: true,
+                removeAttributeQuotes: false,
+                collapseBooleanAttributes: false,
+            });
+
+            contents = contents.replace('`' + svg + '`', () => '`' + minified + '`');
+        }
+
+        return contents;
+    }
+
     // Inicializamos CleanCSS una sola vez
     const cleanCSS = new CleanCSS();
 
@@ -67,7 +90,7 @@ export default function TemplateStringMinifier({svg = false, html = false, css =
                 let contents = await fs.readFile(args.path, 'utf8');
 
                 if(html) contents = await minifyHTML(HTML_REGEX, contents);
-                if(svg) contents = await minifyHTML(SVG_REGEX, contents);
+                if(svg) contents = await minifySVG(SVG_REGEX, contents);
                 if(css) contents = await minifyCSS(CSS_REGEX, contents);
   
                 return { 
